@@ -1,8 +1,13 @@
 # Capsicum
 
-A simple FFI wrapper around the Capsicum OS capability and sandbox framework.
+A simple FFI wrapper around the [Capsicum](https://wiki.freebsd.org/Capsicum)
+OS capability and sandbox framework.
+
 
 ## Installation
+
+A Capsicum-enabled OS is, of course, required.  FreeBSD 10+ (or derivative),
+possibly [capsicum-linux](http://capsicum-linux.org/).
 
 Add this line to your application's Gemfile:
 
@@ -17,6 +22,7 @@ And then execute:
 Or install it yourself as:
 
     $ gem install capsicum
+
 
 ## Usage
 
@@ -53,6 +59,7 @@ status.exitstatus     # => 42
 
 The result is a Process::Status object.
 
+
 ## But How Can I get Anything Done?
 
 Open your files and sockets before entering the sandbox.  If you have a
@@ -72,11 +79,15 @@ File.renameat(dir, "foo", dir, "bar")
 File.unlinkat(dir, "moo")
 ```
 
-This is Ruby issue #10181: https://bugs.ruby-lang.org/issues/10181
+Unfortunately, it doesn't.  See https://bugs.ruby-lang.org/issues/10181
+
+You may consider spawning off workers, maintaining a privileged master process,
+and using IPC to communicate with them.
 
 ## Todo
 
 Wrap Casper to provide DNS services, additional rights controls, etc.
+
 
 ## Development
 
@@ -89,9 +100,10 @@ release a new version, update the version number in `version.rb`, and then run
 `bundle exec rake release`, which will create a git tag for the version, push
 git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
+
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/Freaky/capsicum.
+Bug reports and pull requests are welcome on GitHub at https://github.com/Freaky/ruby-capsicum.
 
 
 ## License
