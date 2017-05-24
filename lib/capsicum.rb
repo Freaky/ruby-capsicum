@@ -16,6 +16,12 @@ module Capsicum
     attach_function :cap_getmode, [IntPtr], :int
   end
 
+  # Check if we're in capability mode.
+  #
+  # @see cap_getmode(2)
+  #
+  # @return [Boolean] true if we've entered capability mode
+  # @raise [Errno::ENOTCAPABLE] - Capsicum not enabled.
   def sandboxed?
     ptr = IntPtr.new
     ret = LibC.cap_getmode(ptr)
@@ -27,6 +33,12 @@ module Capsicum
     end
   end
 
+  # Enter capability sandbox mode.
+  #
+  # @see cap_enter(2)
+  #
+  # @return [Boolean] true if we've entered capability mode.
+  # @raise [Errno::ENOTCAPABLE] - Capsicum not enabled.
   def enter!
     ret = LibC.cap_enter
 
@@ -37,6 +49,11 @@ module Capsicum
     end
   end
 
+  # Run the block within a forked process in capability mode and wait for it to
+  # complete.
+  #
+  # @yield block to run within the forked child.
+  # @return [Process::Status] exit status of the forked child.
   def within_sandbox
     return enum_for(:within_sandbox) unless block_given?
 
