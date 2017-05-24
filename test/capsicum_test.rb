@@ -9,6 +9,8 @@ class CapsicumTest < Minitest::Test
   end
 
   def test_1_within_sandbox
+    skip if RUBY_ENGINE == 'jruby' # fork not supported
+
     refute Capsicum.sandboxed?
 
     result = Capsicum.within_sandbox do
@@ -29,6 +31,7 @@ class CapsicumTest < Minitest::Test
   # After this test we're in capability mode and cannot escape.
   def test_2_capsicum
     refute Capsicum.sandboxed?
+    assert Capsicum.enter!
     assert Capsicum.enter!
     assert Capsicum.sandboxed?
 
