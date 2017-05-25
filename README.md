@@ -60,7 +60,7 @@ status.exitstatus     # => 42
 The result is a Process::Status object.
 
 
-## But How Can I get Anything Done?
+## But How Can I Get Anything Done?
 
 Open your files and sockets before entering the sandbox.  If you have a
 `TCPServer` open, for example, you can still call `#accept` on it, so a useful
