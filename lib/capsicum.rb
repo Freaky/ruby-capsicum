@@ -55,6 +55,8 @@ module Capsicum
   # @yield block to run within the forked child.
   # @return [Process::Status] exit status of the forked child.
   def within_sandbox
+    raise NotImplementedError, "fork() not supported" unless Process.respond_to? :fork
+
     return enum_for(:within_sandbox) unless block_given?
 
     pid = fork do
